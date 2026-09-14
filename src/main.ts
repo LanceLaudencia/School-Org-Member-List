@@ -1,43 +1,22 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router';
+import { createApp } from 'vue' // Creates the Vue app
+import { IonicVue } from '@ionic/vue' // Uses Ionic with Vue
+import App from './App.vue' // Main app component
+import router from './router' // Page navigation
+import '@ionic/vue/css/core.css' // Ionic basic styles
+import '@ionic/vue/css/normalize.css' // Normalizes styles
+import '@ionic/vue/css/structure.css' // Ionic page structure
+import '@ionic/vue/css/typography.css' // Text styles
+import '@ionic/vue/css/padding.css' // Padding styles
+import '@ionic/vue/css/float-elements.css' // Float styles
+import '@ionic/vue/css/text-alignment.css' // Text alignment
+import '@ionic/vue/css/text-transformation.css' // Text formatting
+import '@ionic/vue/css/flex-utils.css' // Flexbox styles
+import '@ionic/vue/css/display.css' // Display styles
+import './theme/variables.css' // App theme styles
 
-import { IonicVue } from '@ionic/vue';
-
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/vue/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
-import '@ionic/vue/css/normalize.css';
-import '@ionic/vue/css/structure.css';
-import '@ionic/vue/css/typography.css';
-
-/* Optional CSS utils that can be commented out */
-import '@ionic/vue/css/padding.css';
-import '@ionic/vue/css/float-elements.css';
-import '@ionic/vue/css/text-alignment.css';
-import '@ionic/vue/css/text-transformation.css';
-import '@ionic/vue/css/flex-utils.css';
-import '@ionic/vue/css/display.css';
-
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import '@ionic/vue/css/palettes/dark.always.css'; */
-/* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
-
-/* Theme variables */
-import './theme/variables.css';
-
-const app = createApp(App)
-  .use(IonicVue)
-  .use(router);
-
-router.isReady().then(() => {
-  app.mount('#app');
-});
+const app = createApp(App) // Creates the app
+app.use(IonicVue) // Adds Ionic
+app.use(router) // Adds page navigation
+router.isReady().then(() => { // Waits for the router
+  app.mount('#app') // Starts the app
+})

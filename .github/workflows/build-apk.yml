@@ -1,0 +1,54 @@
+name: Build Ionic Android APK # Name of the workflow
+
+on:
+  push:
+    branches:
+      - main # Runs when code is pushed to main
+  workflow_dispatch: # Allows manual build
+
+jobs:
+  build-apk:
+    runs-on: ubuntu-latest # Uses a Linux computer
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4 # Gets the project files
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Sets up Node.js
+        with:
+          node-version: 20 # Uses Node.js version 20
+          cache: npm # Saves npm packages for faster builds
+
+      - name: Install dependencies
+        run: npm install # Installs project packages
+
+      - name: Build Vue app
+        run: npm run build # Builds the Vue app
+
+      - name: Setup Java
+        uses: actions/setup-java@v4 # Sets up Java
+        with:
+          distribution: temurin # Uses Temurin Java
+          java-version: 17 # Uses Java version 17
+
+      - name: Install Ionic CLI
+        run: npm install -g @ionic/cli # Installs Ionic CLI
+
+      - name: Add Android platform
+        run: npx cap add android # Adds Android platform
+
+      - name: Sync Android
+        run: npx cap sync android # Syncs the app with Android
+
+      - name: Build APK
+        run: |
+          cd android # Opens the Android folder
+          chmod +x gradlew # Allows Gradle to run
+          ./gradlew assembleDebug # Builds the debug APK
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4 # Uploads the APK
+        with:
+          name: organization-members-apk # Name of the APK file
+          path: android/app/build/outputs/apk/debug/app-debug.apk # APK file location
