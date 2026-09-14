@@ -1,50 +1,41 @@
 name: Build Ionic Android APK
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
-
 jobs:
   build-apk:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
-
       - name: Install dependencies
         run: npm install
-
       - name: Build Vue app
         run: npm run build
-
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 17
-
       - name: Install Ionic CLI
         run: npm install -g @ionic/cli
-
-      - name: Sync Android
+      - name: Add Android platform
         run: |
-          if [ ! -d "android" ]; then
+          if [! -d "android" ]; then
             npx cap add android
           fi
-          npx cap sync android
-
+      - name: Sync Android
+        run: npx cap sync android
       - name: Build APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug
-
+         ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
